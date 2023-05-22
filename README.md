@@ -75,4 +75,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Credits
 
-KILLIX was created by [Your Name](https://github.com/lopekinz).
+KILLIX was created by [Lopekinz](https://github.com/lopekinz).
