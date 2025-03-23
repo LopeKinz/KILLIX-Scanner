@@ -11,7 +11,7 @@ LOGO = r"""
 |   /| || |  | |  | |\  / 
 |   \| || |_/\ |_/\ |/  \ 
 \_|\_\_/\____|____|_/__/\\
-                          
+
 
 """
 
@@ -45,9 +45,16 @@ class Checker:
             imports = ci._gather_imports()
             print(f"[!] Imports: {', '.join(imports)}")
             for module in imports:
-                s, d = ci.check_import(module)
-                if not s:
-                    self.scan_folder(d)
+                result = ci.check_import(module)
+                # Check if the result is a tuple that can be unpacked
+                if isinstance(result, tuple):
+                    s, d = result
+                    if not s:
+                        self.scan_folder(d)
+                else:
+                    # If result is just a boolean, you can handle it here if needed.
+                    # For now, simply skip to the next module.
+                    continue
 
     def scan_folder(self, folder):
         for root, _, files in walk(folder):
