@@ -1,8 +1,11 @@
+import os
 from requests   import get
 from os         import mkdir
 from os.path    import exists
 from zipfile    import ZipFile
 from string     import ascii_letters, digits
+
+import requests
 
 
 class CheckImports:
@@ -390,14 +393,22 @@ class CheckImports:
             download_url = self.getmodinfo(module)
             if download_url:
                 pat     = f"./malicious/{module}"
-                
-                mkdir(pat) if not exists(pat)  else None
-                whl     = get(download_url).content
-                path    = f"./malicious/{module}/{module}.whl"
+        
+                # Ensure the directory and its parent exist
+                os.makedirs(pat, exist_ok=True)
+        
+                # Download the .whl file
+                response = requests.get(download_url)
+                whl = response.content
+                path = f"{pat}/{module}.whl"
 
-                open(path, "wb").write(whl)
+                # Write the downloaded content to a file
+                with open(path, "wb") as file:
+                    file.write(whl)
+                
+                # Extract the .whl file into the directory
                 ZipFile(path).extractall(pat)
-                print("[+] Downloaded:",module)
+                print("[+] Downloaded:", module)
                 return (False, pat)
 
 if __name__ == "__main__":
