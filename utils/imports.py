@@ -372,7 +372,7 @@ class CheckImports:
         if module in whitelist or self.check_if_imported(module):
             return (True)
         if module in blacklist:
-             print("[*] Checking:",module)
+            print("[*] Checking:",module)
             download_url = self.getmodinfo(module)
             if download_url:
                 pat     = f"./malicious/{module}"
